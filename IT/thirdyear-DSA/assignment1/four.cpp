@@ -33,6 +33,7 @@ int main(void)
     {
         cin >> names[i];
     }
+    cout << endl << endl;
 
     names = bsort(names,num);
 
