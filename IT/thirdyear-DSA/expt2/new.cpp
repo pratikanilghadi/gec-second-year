@@ -30,7 +30,14 @@ void stackpost :: push_stack(char buffer)
     if ( buffer == ')')
     {
         while(stack[top_stack] != '(')
+        {
+            if (isempty())
+                {
+                    cout << "Too Many Parenthesis" << endl;
+                    break;
+                }
             pop();
+        }
         top_stack--;
     }
 
