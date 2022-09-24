@@ -1,8 +1,9 @@
+
 #include<iostream>
 #define MAX 30
 
 using namespace std;
-
+//jp is in!
 //! Class Defination------------------------------------------------------------
 class stackpost
 {
