@@ -97,7 +97,7 @@ int main(void)
     {
         para.Display();
         buffer = express[i];
-        if ((buffer == '(' || (buffer == '{') || (buffer == '[')))
+        if ((buffer == '(' )|| (buffer == '{') || (buffer == '['))
         {
             para.push(buffer);
             if (para.isFull())
@@ -106,7 +106,7 @@ int main(void)
             }
         }
 
-        else if ((buffer == ')' || (buffer == '}') || (buffer == ']')))
+        else if ((buffer == ')') || (buffer == '}') || (buffer == ']'))
         {
             para.pop(buffer);
             if (para.isEmpty())
