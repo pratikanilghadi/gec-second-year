@@ -3,7 +3,7 @@
 #define MAX 30
 
 using namespace std;
-//jp is in!
+//jp is in!N
 //! Class Defination------------------------------------------------------------
 class stackpost
 {
@@ -160,7 +160,7 @@ void stackpost :: check(string expression)
         {
             cout << "Expression Invalid" << endl;
         }
-
+    
         if (!(status))
         {
             break;
