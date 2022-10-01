@@ -18,7 +18,7 @@ int rear=-1;
 
 void schedule();
 int isFull();
-void insert(int item);
+void insert(int item,int time);
 void run();
 void del();
 void display();
@@ -39,7 +39,7 @@ int main()
     char name[10];
     int d;
     char st[10];
-    while(fscanf(t,"%d%s%d%s",&id,name,&d,st)==1)
+    /*while(fscanf(t,"%d%s%d%s",&id,name,&d,st)==1)
     {
         for(int i=0;i<10;i++)
         {
@@ -51,21 +51,22 @@ int main()
             gets(task[i].status);
             //strcpy(task[i].status,st); 
         }
-    }
-    /*task[0].task_id=1;
+    }*/
+    task[0].task_id=1;
     strcpy(task[0].title,"one");
-    task[0].duration=1000;
-    strcpy(task[0].status,"idle");*/
+    task[0].duration=10;
+    strcpy(task[0].status,"idle");
 
+    task[1].task_id=2;
+    strcpy(task[1].title,"two");
+    task[1].duration=20;
+    strcpy(task[1].status,"idle");
     for(int i=0;i<10;i++)
     {
         printf("Details of task %d\n",i+1);
         printf("%d",task[i].task_id);
-        printf("\n-----------\n");
         puts(task[i].title);
-        printf("\n-----------\n");
         printf("%d",task[i].duration);
-        printf("\n-----------\n");
         puts(task[i].status);
     }
 
@@ -94,25 +95,30 @@ int main()
 
 void schedule()
 {
-    int id;
+    int id,flag=0;
     printf("Enter id number of task to be scheduled\n");
     scanf("%d",&id);
     for (int i=0;i<10;i++)
     {
-        if(task[i].task_id==id && strcmp(task[i].status,"Idle")==1)
+        if(task[i].task_id==id )
         {
-            insert(id);
+            insert(id,task[i].duration);
             strcpy(task[i].status,"Queued");
+            break;
         }
         else
         {
-            printf("Task c");
+            continue;
+            flag++;
         }
     }
-    printf("task of id number %d is scheduled!!\n",id);
+    if(flag<=9)
+    {
+        printf("Task of ID number %d not found\n",id);
+    }
 }
 
-void insert(int item)
+void insert(int item,int time)
 {
     if(isFull())
     {
@@ -128,7 +134,8 @@ void insert(int item)
         }
         rear=rear+1;
 	    queue[rear].task_id=item;
-        printf("----%d\n",queue[rear].task_id);
+        queue[rear].duration=time;
+        printf("Task of ID number %d is scheduled\n",item);
     }
 }
 
@@ -146,14 +153,14 @@ int isFull()
 
 void run()
 {
-    if(isEmpty)
+    if(isEmpty())
     {
         printf("Task is not scheduled\n");
         return;
     }
     for(int i=0;i<queue[rear].duration;i++)
     {
-        printf("%d",i);
+        printf("%d. ",i);
         //delay(1000);
     }
     printf("Task is completed\n");
@@ -178,7 +185,6 @@ void del()
     }
     else
     {
-        //queue[front].task_id;
         front++;
     }
 
@@ -199,14 +205,7 @@ int isEmpty()
 
 void display()
 {
-    if(isEmpty())
-    {
-        printf("Queue underflow\n");
-        exit(1);
-    }
-    else
-    {
-        printf("Idle tasks are:\n");
+    printf("\nIdle tasks are:\n");
         for(int i=0;i<10;i++)
         {
             if(strcmp(task[i].status,"idle")==0||strcmp(task[i].status,"Idle")==0)
@@ -219,7 +218,7 @@ void display()
             }
         }
 
-        printf("Queued tasks are:\n");
+        printf("\nQueued tasks are:\n");
         for(int i=0;i<10;i++)
         {
             if(strcmp(task[i].status,"Queued")==0)
@@ -231,25 +230,20 @@ void display()
             }
         }
 
-        printf("Completed tasks are:\n");
+        printf("\nCompleted tasks are:\n");
         for(int i=0;i<10;i++)
         {
             if(strcmp(task[i].status,"completed")==0)
-            {
-                
+            { 
                 printf("%d\n",task[i].task_id);
                 puts(task[i].title);
                 printf("%d\n",task[i].duration);
                 puts(task[i].status);
-
+            }
+            else
+            {
+                printf("Tasks are not completed\n");
             }
         }
-
-        printf("values are\n");
-        for(int i=front;i<=rear;i++)
-        {
-            printf("%s \n",queue[i]);
-        }
-    }
 }
 
