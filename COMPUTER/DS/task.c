@@ -3,7 +3,7 @@
 #include<string.h>
 #include<stdlib.h>
 
-struct Ta
+struct Task
 {
     int task_id;
     char title[100];
@@ -11,119 +11,117 @@ struct Ta
     char status[30];
 }task[10];
 
-#define MAX 10
-struct Ta queue[MAX];
+int MAX = 5;
 int front=-1;
 int rear=-1;
 
-void schedule();
+void schedule(struct Task queue[]);
 int isFull();
-void insert(int item,int time);
-void run();
-void del();
+void insert(int item,int time,struct Task queue[],int i);
+void run(struct Task queue[]);
+void del(struct Task queue[]);
 void display();
 int isEmpty();
+void delay(int time);
 
 int main()
 {
-    
-    FILE *t=fopen("task.txt","r");
+    int options;
+    int MAX = 5;
+    struct Task queue[MAX];
+    FILE *t=fopen("task.txt","r+");
     if(t==NULL)
     {
         printf("File cannot be opened:\n");
         exit(1);
     }
-
-    int options;
-    int id;
-    char name[10];
-    int d;
-    char st[10];
-    /*while(fscanf(t,"%d%s%d%s",&id,name,&d,st)==1)
-    {
-        for(int i=0;i<10;i++)
-        {
-            task[i].task_id=id;
-            gets(task[i].title);
-            //strcpy(task[i].title,name);
-            //task[i].title=name;
-            task[i].duration=d;
-            gets(task[i].status);
-            //strcpy(task[i].status,st); 
-        }
-    }*/
-    task[0].task_id=1;
-    strcpy(task[0].title,"one");
-    task[0].duration=10;
-    strcpy(task[0].status,"idle");
-
-    task[1].task_id=2;
-    strcpy(task[1].title,"two");
-    task[1].duration=20;
-    strcpy(task[1].status,"idle");
     for(int i=0;i<10;i++)
     {
-        printf("Details of task %d\n",i+1);
-        printf("%d",task[i].task_id);
-        puts(task[i].title);
-        printf("%d",task[i].duration);
-        puts(task[i].status);
+        fscanf(t,"%d %s %d %s",&task[i].task_id,&task[i].title,&task[i].duration,&task[i].status);
     }
-
+    fclose(t);
+    
     while(1)
     {
-        printf("enter:\n");
-        printf("1-scheduling a task\n");
-        printf("2-running a task\n");
-        printf("3-Display task details\n");
-        
+        printf("\nEnter:\n");
+        printf("1-Scheduling a task\n");
+        printf("2-Running a task\n");
+        printf("3-Display scheduled task details\n");
+        printf("4-Exit\n");
         scanf("%d",&options);
 
         switch(options)
         {
-            case 1:schedule();
+            case 1:schedule(queue);
                    break;
 
-            case 2:run();
+            case 2:run(queue);
                    break;
 
             case 3:display();
                    break;
+
+            case 4:exit(1);
+                   break;
+                
+            default :printf("Invalid input\n");
         }
     }
 }
 
-void schedule()
+void schedule(struct Task queue[])
 {
     int id,flag=0;
-    printf("Enter id number of task to be scheduled\n");
+    printf("\nEnter id number of task to be scheduled: ");
     scanf("%d",&id);
     for (int i=0;i<10;i++)
     {
         if(task[i].task_id==id )
         {
-            insert(id,task[i].duration);
-            strcpy(task[i].status,"Queued");
-            break;
+            if(strcmp(task[i].status,"Queued")==1)
+            {
+                if(strcmp(task[i].status,"Completed")==1)
+                {
+                    insert(id,task[i].duration,queue,i);
+                    break;
+                }
+                else
+                {
+                    printf("Task is already completed!!\n");
+                    break;
+                }
+            }
+            else
+            {
+                printf("Task is already scheduled!!\n");
+                break;
+            }
+            
         }
         else
         {
-            continue;
             flag++;
+            continue;
+            
         }
     }
-    if(flag<=9)
+    if(flag>9)
     {
         printf("Task of ID number %d not found\n",id);
     }
 }
 
-void insert(int item,int time)
+void insert(int item,int time,struct Task queue[],int i)
 {
+    if(front == MAX && rear==MAX-1)
+    {
+        front=-1;
+        rear=-1;
+    }
     if(isFull())
     {
-        printf("Queue overflow\n");
         printf("Task cannot be scheduled\n");
+        printf("Run a task :");
         return ;
     }
     else
@@ -135,6 +133,7 @@ void insert(int item,int time)
         rear=rear+1;
 	    queue[rear].task_id=item;
         queue[rear].duration=time;
+        strcpy(task[i].status,"Queued");
         printf("Task of ID number %d is scheduled\n",item);
     }
 }
@@ -151,19 +150,21 @@ int isFull()
     }
 }
 
-void run()
+void run(struct Task queue[])
 {
     if(isEmpty())
     {
         printf("Task is not scheduled\n");
         return;
     }
-    for(int i=0;i<queue[rear].duration;i++)
+    printf("Task is running\n");
+    printf("Please Wait\n");
+    for(int i=0;i<queue[front].duration;i++)
     {
         printf("%d. ",i);
-        //delay(1000);
+        delay(1);
     }
-    printf("Task is completed\n");
+    printf("\nTask with ID %d is completed\n",queue[front].task_id);
     for(int i=0;i<10;i++)
     {
         if(queue[front].task_id==task[i].task_id)
@@ -172,12 +173,11 @@ void run()
             break;
         }
     }
-    del();
+    del(queue);
 }
 
-void del()
+void del(struct Task queue[])
 {
-    int item;
     if(isEmpty())
     {
         printf("Tasks are not scheduled\n");
@@ -186,6 +186,7 @@ void del()
     else
     {
         front++;
+        MAX++;
     }
 
     
@@ -205,16 +206,14 @@ int isEmpty()
 
 void display()
 {
+    int count=0;
     printf("\nIdle tasks are:\n");
         for(int i=0;i<10;i++)
         {
             if(strcmp(task[i].status,"idle")==0||strcmp(task[i].status,"Idle")==0)
             {
-                printf("%d\n",task[i].task_id);
+                printf("ID:-%d , Task name:-",task[i].task_id);
                 puts(task[i].title);
-                printf("%d\n",task[i].duration);
-                puts(task[i].status);
-
             }
         }
 
@@ -223,10 +222,8 @@ void display()
         {
             if(strcmp(task[i].status,"Queued")==0)
             {
-                printf("%d\n",task[i].task_id);
+                printf("ID:-%d , Task name:-",task[i].task_id);
                 puts(task[i].title);
-                printf("%d\n",task[i].duration);
-                puts(task[i].status);
             }
         }
 
@@ -235,15 +232,25 @@ void display()
         {
             if(strcmp(task[i].status,"completed")==0)
             { 
-                printf("%d\n",task[i].task_id);
+                printf("ID:-%d , Task name:-",task[i].task_id);
                 puts(task[i].title);
-                printf("%d\n",task[i].duration);
-                puts(task[i].status);
             }
             else
             {
-                printf("Tasks are not completed\n");
+                count++;
             }
+        }
+        if(count>9)
+        {
+            printf("Tasks are not completed\n");
         }
 }
 
+void delay(int time)
+{
+    int time_ms = 1000 * time;
+    clock_t start = clock();
+    while (clock() < start + time_ms)
+    {
+    }
+}
