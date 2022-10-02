@@ -3,7 +3,6 @@
 #define MAX 30
 
 using namespace std;
-//jp is in!N
 //! Class Defination------------------------------------------------------------
 class stackpost
 {
