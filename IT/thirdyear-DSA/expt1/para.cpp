@@ -25,6 +25,7 @@ class stack{
         void pop(char value);
         void push(char value);
 };
+
 //! Push Function------------------------------------------------------
 void stack :: push(char value)
 {
@@ -93,29 +94,37 @@ int main(void)
     cout << "Enter the expression to be evaluated" << endl;
     cin >> express;
 
-    for (int i = 0; i < MAX; i++)
+    for (int i = 0; i < express.length(); i++)
     {
-        para.Display();
+        
         buffer = express[i];
-        if ((buffer == '(' )|| (buffer == '{') || (buffer == '['))
+        if (buffer == '(' || buffer == '{' || buffer == '[')
         {
-            para.push(buffer);
             if (para.isFull())
             {
+                para.status = false;
                 break;
             }
+            para.push(buffer);
         }
 
-        else if ((buffer == ')') || (buffer == '}') || (buffer == ']'))
+        else if (buffer == ')' || buffer == '}' || buffer == ']')
         {
-            para.pop(buffer);
+            
             if (para.isEmpty())
             {
+                para.status = false;
                 break;
             }
+            para.pop(buffer);
         }
         else 
             continue;
+    }
+
+    if (!para.isEmpty())
+    {
+        para.status = false;
     }
 
     //! Check if the code is still functioning properly 

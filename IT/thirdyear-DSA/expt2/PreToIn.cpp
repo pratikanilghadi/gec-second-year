@@ -37,11 +37,13 @@ void stackpre :: check(string expression)
         buffer = expression[i];
         char contain = expression[i];
 
-        if( (contain >= 'a' && contain <= 'z') || (contain >= 'A' && contain <= 'Z') || (contain >= '0' && contain <= '9'))
+        if( (contain >= 'a' && contain <= 'z') || (contain >= 'A' && contain <= 'Z')
+            || (contain >= '0' && contain <= '9'))
         {
             push(buffer);
         }
-        else if ( contain == '+' || contain == '-' || contain == '/' || contain == '*' || contain == '^')
+        else if ( contain == '+' || contain == '-' || contain == '/' || contain == '*' 
+                  || contain == '^')
         {
             merge(buffer);
         }
