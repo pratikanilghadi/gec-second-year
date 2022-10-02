@@ -252,5 +252,6 @@ void delay(int time)
     clock_t start = clock();
     while (clock() < start + time_ms)
     {
+        
     }
 }
