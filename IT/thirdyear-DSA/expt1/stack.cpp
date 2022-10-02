@@ -10,7 +10,7 @@ class stack
     int array[MAX];
 
     public:
-    stack()
+    stack() 
     {
         top = -1;
         for ( int i = 0; i < MAX ; i++)
