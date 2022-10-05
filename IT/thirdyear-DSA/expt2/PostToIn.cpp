@@ -12,17 +12,17 @@ using namespace std;
 //?                  Check() - iterates through whole expression and 
 //?                  Display() - displays the stack
 *///!--------------------------------------------------------------------------
-class stackpre
+class stackpost
 {
     private:
     int top;
     int evtop;
-    bool isnumber;
     int evstack[MAX];
     string stack[MAX];
+    bool isnumber;
 
     public:
-    stackpre(){top = -1;evtop = -1;isnumber = false; for (int i = 0; i < MAX; i++) { stack[i] = " ";}}
+    stackpost(){top = -1;evtop = -1; isnumber = false; for (int i = 0; i < MAX; i++) { stack[i] = " ";}}
     string pop();
     void evmerge(char sign);
     void evaluate(string expression);
@@ -35,12 +35,12 @@ class stackpre
 //* Defination for evaluate()----------------------------------------------------------
 //? First check if a number was there in the expression or not
 //? Then evaluates the expression
-void stackpre :: evaluate(string expression)
+void stackpost :: evaluate(string expression)
 {
     if(isnumber)
     {
         string buffer;
-        for( int i = expression.length() - 1; i >= 0; i--)
+        for( int i = 0; i < expression.length(); i++)
         {
             buffer = expression[i];
             char contain = expression[i];
@@ -71,7 +71,7 @@ void stackpre :: evaluate(string expression)
 
 //* Defination for evmerge()-------------------------------------------------
 //? Evaluate the two digit in the stack
-void stackpre :: evmerge(char sign)
+void stackpost :: evmerge(char sign)
 {
     int value = 0;
     if (sign == '+')
@@ -120,17 +120,16 @@ void stackpre :: evmerge(char sign)
 //* Defination for check()----------------------------------------------------
 //? Iterates throught the whole expression and checks if the character is an
 //? operator or an operand and calls push or merge as required
-void stackpre :: check(string expression)
+void stackpost :: check(string expression)
 {
-    int index = expression.length() - 1; 
-    if (expression[index] >= '0' && expression[index] <= '9')
-        isnumber = true;
+    if((expression[0] >= '0') && (expression[0] <= '9'))
+    isnumber = true;
+
     string buffer;
-    for( int i = expression.length() - 1; i >= 0; i--)
+    for( int i = 0; i < expression.length(); i++)
     {
         buffer = expression[i];
         char contain = expression[i];
-
         if( (contain >= 'a' && contain <= 'z') || (contain >= 'A' && contain <= 'Z')
             || (contain >= '0' && contain <= '9'))
         {
@@ -151,7 +150,7 @@ void stackpre :: check(string expression)
 //* Defination for pop--------------------------------------------------------
 //? Stores the topmost element in a variable and removes the topmost element 
 //? and Returns the variable stored
-string stackpre :: pop()
+string stackpost :: pop()
 {
     string buffer;
     buffer = stack[top];
@@ -161,7 +160,7 @@ string stackpre :: pop()
 }
 
 //* Defination for push-------------------------------------------------------
-void stackpre :: push(string buffer)
+void stackpost :: push(string buffer)
 {
     top++;
     stack[top] = buffer;
@@ -170,17 +169,17 @@ void stackpre :: push(string buffer)
 //* Defination for merge------------------------------------------------------
 //? Pops the two topmost elements and combines it with parenthesis and the recived 
 //? operator and pushes the obtained expression onto the stack
-void stackpre :: merge(string buffer)
+void stackpost :: merge(string buffer)
 {
     string first, second, expression;
     first = pop();
     second = pop();
-    expression = "(" + first + buffer + second + ")";
+    expression = "(" + second + buffer + first + ")";
     push(expression);
 }
 
 //* Defination for Display----------------------------------------------------
-void stackpre :: display()
+void stackpost :: display()
 {
     cout << stack[top];
     cout << endl;
@@ -189,7 +188,7 @@ void stackpre :: display()
 //! Main Function Defination---------------------------------------------------
 int main(void)
 {
- stackpre stack;
+ stackpost stack;
  string expression;
 
  cout << "Enter the expression" << endl;
