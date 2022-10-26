@@ -2,54 +2,57 @@
 
 using namespace std;
 
-class selection
+class insert
 {
-    int a[10], n;
+    int a[10], n, i, j, temp;
 
     public:
-    selection(int size)
-    {
-        n = size;
-    }
     void getdata();
     void sort();
     void display();
 };
 
-void selection :: getdata()
+void insert::getdata()
 {
-    cout << "Enter the elements of the array: ";
-    for (int i = 0; i < n; i++)
+    cout << "Enter the number of elements: ";
+    cin >> n;
+    cout << "Enter the elements: ";
+    for (i = 0; i < n; i++)
     {
         cin >> a[i];
     }
 }
 
-void selection :: display()
+void insert::sort()
+{
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = i; j >= 0; j--)
+        {
+            if (a[j] < a[j - 1])
+            {
+                temp = a[j];
+                a[j] = a[j - 1];
+                a[j - 1] = temp;
+            }
+        }
+    }
+}
+
+void insert :: display()
 {
     cout << "The sorted array is: ";
-    for (int i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
     {
         cout << a[i] << " ";
     }
 }
 
-void selection :: sort()
-{
-    for (int i = 1; i < n; i++)
-    {
-        if ( a[i] < a[)
-    }
-}
-
 int main(void)
 {
-    int size;
-    cout << "Enter the size of the array: " << endl;
-    cin >> size; 
-
-    selection s(size);
-    s.getdata();
-    s.sort();
-    s.display();
+    insert obj;
+    obj.getdata();
+    obj.sort();
+    obj.display();
+    return 0;
 }
