@@ -1,65 +1,64 @@
 #include<iostream>
-#define MAX 30
+#include<cstring>
+#define MAX 10
 
 using namespace std;
 
-//! Class Defination------------------------------------------------------------
-class stackpost
+class stackpre
 {
-    private:
+private:
     int top_stack;
-    int top_post;
+    int top_pre;
     char stack[MAX];
-    char post[MAX];
+    char pre[MAX];
 
-    public:
+public:
     bool status;
-    stackpost() {top_stack = -1;top_post = -1;status = true;for(int i= 0; i < MAX; i++){post[i]=' ';}}
+    stackpre()
+    {
+        top_stack = -1;
+        top_pre = -1;
+        status = true;
+        for (int i = 0; i < MAX; i++)
+        {
+            pre[i] = ' ';
+        }
+    }
     bool isempty();
     bool isfull();
     void check(string expression);
     void push_stack(char buffer);
-    void push_post(char buffer);
+    void push_pre(char buffer);
     void pop();
     void display();
 };
 
 //! Push_Stack------------------------------------------------------------------
-void stackpost :: push_stack(char buffer)
+void stackpre ::push_stack(char buffer)
 {
-    if ( buffer == ')')
+    if (buffer == ')')
     {
-        while(stack[top_stack] != '(')
+        while (stack[top_stack] != '(')
         {
             if (isempty())
-                {
-                    cout << "Too Many Parenthesis" << endl;
-                    break;
-                }
+            {
+                cout << "Too Many Parenthesis" << endl;
+                break;
+            }
             pop();
         }
         top_stack--;
     }
 
-    else if ( buffer == '^')
+    else if (buffer == '^')
     {
-            top_stack++;
-            stack[top_stack] = buffer;
-    }
-
-    else if ( buffer == '*' || buffer == '/')
-    {
-        while ( stack[top_stack] == '^')
-        {
-            pop(); 
-        }
         top_stack++;
         stack[top_stack] = buffer;
     }
 
-    else if ( buffer == '+' || buffer == '-')
+    else if (buffer == '*' || buffer == '/')
     {
-        while ( stack[top_stack] == '^' || stack[top_stack] == '*' || stack[top_stack] == '/')
+        while (stack[top_stack] == '^')
         {
             pop();
         }
@@ -67,7 +66,17 @@ void stackpost :: push_stack(char buffer)
         stack[top_stack] = buffer;
     }
 
-    else 
+    else if (buffer == '+' || buffer == '-')
+    {
+        while (stack[top_stack] == '^' || stack[top_stack] == '*' || stack[top_stack] == '/')
+        {
+            pop();
+        }
+        top_stack++;
+        stack[top_stack] = buffer;
+    }
+
+    else
     {
         if (isempty())
         {
@@ -80,19 +89,18 @@ void stackpost :: push_stack(char buffer)
             top_stack++;
             stack[top_stack] = buffer;
         }
-
     }
 }
 
-//! Push_Post-------------------------------------------------------------------
-void stackpost :: push_post(char buffer)
+//! Push_pre-------------------------------------------------------------------
+void stackpre ::push_pre(char buffer)
 {
-    top_post++;
-    post[top_post] = buffer;
+    top_pre++;
+    pre[top_pre] = buffer;
 }
 
 //! Pop-------------------------------------------------------------------------
-void stackpost :: pop()
+void stackpre ::pop()
 {
     if (isempty())
     {
@@ -101,23 +109,22 @@ void stackpost :: pop()
         return;
     }
 
-    top_post++;
-    post[top_post] = stack[top_stack];
+    top_pre++;
+    pre[top_pre] = stack[top_stack];
     top_stack--;
-
 }
 
 //! isempty---------------------------------------------------------------------
-bool stackpost :: isempty()
+bool stackpre ::isempty()
 {
     if (top_stack == -1)
         return true;
-    else 
+    else
         return false;
 }
 
 //! isfull----------------------------------------------------------------------
-bool stackpost :: isfull()
+bool stackpre ::isfull()
 {
     if (top_stack == MAX - 1)
         return true;
@@ -126,15 +133,14 @@ bool stackpost :: isfull()
 }
 
 //! Display---------------------------------------------------------------------
-void stackpost :: display()
+void stackpre ::display()
 {
-    for ( int i = 0; i < MAX; i++)
-        cout << post[i];
-    cout << endl;
+    string exp=strrev(pre);
+    cout << exp;
 }
 
 //! Check-----------------------------------------------------------------------
-void stackpost :: check(string expression)
+void stackpre ::check(string expression)
 {
     char buffer;
 
@@ -142,15 +148,15 @@ void stackpost :: check(string expression)
     {
         buffer = expression[i];
         //? Checks for blank space
-        if(buffer == ' ')
+        if (buffer == ' ')
             continue;
-        
+
         else if ((buffer >= 'A' && buffer <= 'Z') || (buffer >= 'a' && buffer <= 'z') || (buffer >= '0' && buffer <= '9'))
         {
-            push_post(buffer);
+            push_pre(buffer);
         }
 
-        else if(buffer == '*' || buffer == '/' || buffer == '+' || buffer == '-' || buffer == '^' || buffer == '(' || buffer == ')')
+        else if (buffer == '*' || buffer == '/' || buffer == '+' || buffer == '-' || buffer == '^' || buffer == '(' || buffer == ')')
         {
             push_stack(buffer);
         }
@@ -165,28 +171,22 @@ void stackpost :: check(string expression)
             break;
         }
     }
-    if(status)
+    if (status)
     {
-        while(!isempty())
+        while (!isempty())
         {
             pop();
         }
     }
 }
 
-//! Main Function---------------------------------------------------------------
-int main(void)
+//-------MAIN------------------------------
+int main()
 {
-    string expression;
-    stackpost post;
-
-    cout << "Enter the expression" << endl;
-    cin >> expression;
-
-    post.check(expression);
-    if (post.status)
-        post.display();
-    else
-        cout << "The code has an error" << endl;
-
+    string InfixExp;
+    stackpre obj;
+    cout<<"Enter the Expression"<<endl;
+    cin>>InfixExp;
+    obj.check(InfixExp);
+    obj.display();
 }
