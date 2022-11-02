@@ -2,9 +2,11 @@
 
 using namespace std;
 
+template <class T>
 class bubble
 {
-    int a[10], n;
+    T a[10];
+    int n;
 
     public:
     bubble(int size)
@@ -16,7 +18,8 @@ class bubble
     void display();
 };
 
-void bubble :: getdata()
+template <class T>
+void bubble<T> :: getdata()
 {
     cout << "Enter the elements of the array: ";
     for (int i = 0; i < n; i++)
@@ -25,7 +28,8 @@ void bubble :: getdata()
     }
 }
 
-void bubble :: sort()
+template <class T>
+void bubble<T> :: sort()
 {
     for (int i = 0; i < n; i++)
     {
@@ -33,7 +37,7 @@ void bubble :: sort()
         {
             if (a[j] > a[j + 1])
             {
-                int temp = a[j];
+                T temp = a[j];
                 a[j] = a[j + 1];
                 a[j + 1] = temp;
             }
@@ -41,7 +45,8 @@ void bubble :: sort()
     }
 }
 
-void bubble :: display()
+template <class T>
+void bubble<T> :: display()
 {
     cout << "The sorted array is: ";
     for (int i = 0; i < n; i++)
@@ -56,7 +61,7 @@ int main(void)
     cout << "Enter the size of the array: " << endl;
     cin >> size; 
 
-    bubble b(size);
+    bubble<float> b(size);
     b.getdata();
     b.sort();
     b.display();

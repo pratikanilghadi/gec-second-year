@@ -2,17 +2,21 @@
 
 using namespace std;
 
+template <class T>
 class insert
 {
-    int a[10], n, i, j, temp;
+    T a[10], temp;
+    int n, i, j;
 
     public:
+    insert() { n = 0;}
     void getdata();
     void sort();
     void display();
 };
 
-void insert::getdata()
+template <class T>
+void insert<T>::getdata()
 {
     cout << "Enter the number of elements: ";
     cin >> n;
@@ -23,11 +27,13 @@ void insert::getdata()
     }
 }
 
-void insert::sort()
+template <class T>
+void insert<T>::sort()
 {
-    for (int i = 1; i < n; i++)
+    for (i = 1; i < n ; i++)
     {
-        for (int j = i; j >= 0; j--)
+        cout << "Pass :" << i  << " ";
+        for (j = i; j > 0; j--)
         {
             if (a[j] < a[j - 1])
             {
@@ -35,11 +41,18 @@ void insert::sort()
                 a[j] = a[j - 1];
                 a[j - 1] = temp;
             }
+            
+            for (int i = 0; i < n; i++)
+            {
+                cout << a[i] << " ";
+            }   
+            cout << endl;
         }
     }
 }
 
-void insert :: display()
+template <class T>
+void insert<T> :: display()
 {
     cout << "The sorted array is: ";
     for (i = 0; i < n; i++)
@@ -50,7 +63,7 @@ void insert :: display()
 
 int main(void)
 {
-    insert obj;
+    insert<int> obj;
     obj.getdata();
     obj.sort();
     obj.display();

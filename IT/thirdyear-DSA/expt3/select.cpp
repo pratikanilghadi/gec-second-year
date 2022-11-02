@@ -2,9 +2,11 @@
 
 using namespace std;
 
+template <class T>
 class select
 {
-    int a[10], n, i, j, temp, min, pos;
+    T a[10], temp;
+    int n, i, j, min, pos;
 
     public:
     void getdata();
@@ -12,7 +14,8 @@ class select
     void display();
 };
 
-void select::getdata()
+template <class T>
+void select<T>::getdata()
 {
     cout << "Enter the number of elements: ";
     cin >> n;
@@ -23,7 +26,8 @@ void select::getdata()
     }
 }
 
-void select:: display()
+template <class T>
+void select<T>:: display()
 {
     cout << "The sorted array is: ";
     for (i = 0; i < n; i++)
@@ -32,7 +36,8 @@ void select:: display()
     }
 }
 
-void select:: sort()
+template <class T>
+void select<T>:: sort()
 {
     for (int i = 0; i < n ; i++)
     {
@@ -54,7 +59,7 @@ void select:: sort()
 
 int main(void)
 {
-    select s;
+    select<int> s;
     s.getdata();
     s.sort();
     s.display();
