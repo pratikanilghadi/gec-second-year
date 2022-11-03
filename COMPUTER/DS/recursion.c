@@ -14,9 +14,8 @@ void convert(int num ,int base)
 {
  int rem=num%base;
  if(num==0)
- {
-  return;
- }
+ { return; }
+
  convert(num/base,base);
 
  if(rem<10)
@@ -140,21 +139,22 @@ int search(node *start,int item)
        return search(p->link,item);
 }
 
-
-
 int main()
 {
- int op=0,num,disks=0,num1=0,num2=0;
+ int op=0,num=0,disks=0,num1=0,num2=0,item,found=0;
  char source='A',temp='B',dest='C';
  char *sti;
+ struct node *start;
  
  while(1)
  {
+  printf("\n---------------");
   printf("\n1-Base conversion\n");
   printf("2-Tower of Hanoi\n");
   printf("3-To find greatest common divisor\n");
   printf("4-Reverse a string\n");
   printf("5-to search an item\n");
+  printf("6-Exit\n");
   printf("Enter Your choice: ");
   scanf("%d",&op);
 
@@ -183,7 +183,7 @@ int main()
           tower(disks,source,temp,dest);
           break;
 
-   case 3:printf("Enter 1st number : ");
+   case 3:printf("\nEnter 1st number : ");
           scanf("%d",&num1);
           printf("Enter 2nd number : ");
           scanf("%d",&num2);
@@ -192,17 +192,15 @@ int main()
 
    case 4:printf("Enter string : ");
           scanf("%s",&sti);
-          printf("Originnal string is: ");
-		  printf("%s",&sti);
-		  printf("Reversed string is : ");
-	      reverse(&sti);
+          printf("Originnal string is:  ");
+	   printf("%s",&sti);
+	   printf("\nReversed string is : ");
+	   reverse(&sti);
+	   printf("\n");
           break;
 
-  case 5:node *start;
-         int item,found;
-         start=create(start);
-         display(start);
-         printf("Enter the value to be search: ");
+  case 5:start=create(start);
+         printf("\nEnter the value to be search: ");
          scanf("%d",&item);
          found=search(start,item);
          if(found==1)
@@ -211,9 +209,13 @@ int main()
          }
          else
          {
-              printf("Item not found\n\n");
+              printf("Item not found!!\n");
          }
          break;
+
+   case 6:exit(1);
+
+   default:printf("Invalid Input\n");
   }
  } 
 }
