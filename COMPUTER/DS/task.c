@@ -80,7 +80,7 @@ void schedule(struct Task queue[])
         {
             if(strcmp(task[i].status,"Queued")==1)
             {
-                if(strcmp(task[i].status,"Completed")==1)
+                if(strcmp(task[i].status,"completed")==1)
                 {
                     insert(id,task[i].duration,queue,i);
                     break;
@@ -120,8 +120,13 @@ void insert(int item,int time,struct Task queue[],int i)
     }
     if(isFull())
     {
-        printf("Task cannot be scheduled\n");
-        printf("Run a task :");
+        int maxtime=0;
+        for (int i=0;i<MAX;i++)
+        {
+            maxtime=maxtime+queue[i].duration;
+        }
+        printf("Please wait:\n");
+        printf("Minimum time for waiting is %d seconds and maxmimum time for waiting is %d seconds\n",queue[rear].duration,maxtime);
         return ;
     }
     else
