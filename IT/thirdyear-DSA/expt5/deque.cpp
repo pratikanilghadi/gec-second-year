@@ -16,29 +16,49 @@ class node
 };
 
 template <class TYPE>
-class queue
+class deque
 {
     node<TYPE> *head;
     node<TYPE> *tail;
 
     public:
-    queue()
+    deque()
     {
         head = NULL;
         tail = NULL;
     }
 
-    void remove();
+    void removehead();
+    void removetail();
     void add();
     void display();
 };
 
 template <class TYPE>
-void queue<TYPE>:: display()
+void deque<TYPE>:: removetail()
 {
     if (head == NULL)
     {
-        cout << "The queue is empty" << endl;
+        cout << "The deque is empty" << endl;
+        return;
+    }
+
+    node<TYPE> *temp = head;
+    while (temp->next != tail)
+    {
+        temp = temp->next;
+    }
+    cout << "The value deleted is: " << tail->data << endl;
+    delete(tail);
+    tail = temp;
+}
+
+template <class TYPE>
+void deque<TYPE>:: display()
+{
+    if (head == NULL)
+    {
+        cout << "The deque is empty" << endl;
         return;
     }
 
@@ -53,11 +73,11 @@ void queue<TYPE>:: display()
 }
 
 template <class TYPE>
-void queue<TYPE>:: remove()
+void deque<TYPE>:: removehead()
 {
     if (head == NULL)
     {
-        cout << "The queue is empty" << endl;
+        cout << "The deque is empty" << endl;
         return;
     }
 
@@ -67,7 +87,7 @@ void queue<TYPE>:: remove()
 }
 
 template <class TYPE>
-void queue<TYPE>:: add()
+void deque<TYPE>:: add()
 {
     int value;
     cout << "Enter the data to be stored: ";
@@ -95,7 +115,7 @@ void queue<TYPE>:: add()
 
 int main()
 {
-    queue<int> q;
+    deque<int> q;
     int choice;
     while (1)
     {
@@ -112,7 +132,7 @@ int main()
                 q.add();
                 break;
             case 2:
-                q.remove();
+                q.removehead();
                 break;
             case 3:
                 q.display();
@@ -121,6 +141,7 @@ int main()
                 exit(0);
             default:
                 cout << "Invalid choice" << endl;
+                exit(0);
         }
     }
 }

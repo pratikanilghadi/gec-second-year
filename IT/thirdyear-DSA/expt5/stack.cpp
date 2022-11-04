@@ -81,7 +81,7 @@ void stack<TYPE>:: display()
 
 int main()
 {
-    stack<int> s;
+    stack<string> s;
     int choice;
     
     while(1)
