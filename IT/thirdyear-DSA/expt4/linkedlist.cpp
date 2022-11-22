@@ -2,13 +2,14 @@
 
 using namespace std;
 
-// Node Defination
+//! Node Defination
+template <class VAR>
 class node
 {
     public:
-    int data;
+    VAR data;
     node *next;
-    node(int value)
+    node(VAR value)
     {
         data = value;
         next = NULL;
@@ -19,10 +20,11 @@ class node
     }
 };
 
-// Linked List Class Defination
+//! Linked List Class Defination
+template <class TYPE>
 class linkedlist
 {  
-    node *head;
+    node<TYPE> *head;
     int count;
 
     public:
@@ -33,24 +35,26 @@ class linkedlist
     void remove();
     void search();
     void sort();
-    linkedlist split();
-    void merge(linkedlist list2);
+    linkedlist<TYPE> split();
+    void merge(linkedlist<TYPE> list2);
 };
 
-// The merge Function : takes a linked list as argument and merges it with the current list
-void linkedlist:: merge(linkedlist list2)
+//! The merge Function : takes a linked list as argument and merges it with the current list
+template <class TYPE>
+void linkedlist<TYPE>:: merge(linkedlist<TYPE> list2)
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
     while(temp->next != NULL)
         temp = temp->next;
     temp->next = list2.head;
 }
 
-// The split Function : splits the list into two halves and returns the second half
-linkedlist linkedlist:: split()
+//! The split Function : splits the list into two halves and returns the second half
+template <class TYPE>
+linkedlist<TYPE> linkedlist<TYPE>:: split()
 {
-    linkedlist list2;
-    node *temp= head;
+    linkedlist<TYPE> list2;
+    node<TYPE> *temp= head;
     for (int i = 0; i < count/2; i++)
     {
         temp = temp->next;
@@ -60,14 +64,15 @@ linkedlist linkedlist:: split()
     return list2;
 }
 
-// The sort Function : sorts the list in ascending order
-void linkedlist:: sort()
+//! The sort Function : sorts the list in ascending order
+template <class TYPE>
+void linkedlist<TYPE>:: sort()
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
     int buffer;
     for (; temp->next != NULL; temp = temp->next)
     {
-        node *temp2 = temp;
+        node<TYPE> *temp2 = temp;
         for (; temp2->next != NULL; temp2 = temp2->next)
         {
             if(temp2->data > temp2->next->data)
@@ -80,13 +85,14 @@ void linkedlist:: sort()
     }
 }
 
-// The search Function : searches for a given value in the list
-void linkedlist:: create()
+//! The search Function : searches for a given value in the list
+template <class TYPE>
+void linkedlist<TYPE>:: create()
 {
     int value;
     cout << "Enter the value of the node: " << endl;
     cin >> value;
-    node *p = new node(value);
+    node<TYPE> *p = new node<TYPE>(value);
     if(head == NULL)
     {
         head = p;
@@ -94,7 +100,7 @@ void linkedlist:: create()
     }
     else
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         while(temp->next != NULL)
         {
             temp = temp->next;
@@ -104,10 +110,11 @@ void linkedlist:: create()
     }
 }
 
-// The display Function : displays the list
-void linkedlist:: display()
+//! The display Function : displays the list
+template <class TYPE>
+void linkedlist<TYPE>:: display()
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
     if (head == NULL)
     {
         return;
@@ -122,8 +129,9 @@ void linkedlist:: display()
     cout << "]" << endl;
 }
 
-// The insert Function : inserts a node at a given position
-void linkedlist:: remove()
+//! The insert Function : inserts a node at a given position
+template <class TYPE>
+void linkedlist<TYPE>:: remove()
 {
     int position;
     cout << "Enter the position of the node to be deleted: " << endl;
@@ -135,7 +143,7 @@ void linkedlist:: remove()
 
     else
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         if(position == 1)
         {
             head = temp->next;
@@ -148,7 +156,7 @@ void linkedlist:: remove()
             {
                 temp = temp->next;
             }
-            node *p = temp->next;
+            node<TYPE> *p = temp->next;
             temp->next = p->next;
             delete p;
             count--;
@@ -156,13 +164,14 @@ void linkedlist:: remove()
     }
 }
 
-// The insert Function : inserts a node at a given position
-void linkedlist:: insert()
+//! The insert Function : inserts a node at a given position
+template <class TYPE>
+void linkedlist<TYPE>:: insert()
 {
     int value;
     cout << "Enter the value of the node: " << endl;
     cin >> value;
-    node *p = new node(value);
+    node<TYPE> *p = new node<TYPE>(value);
     int position;
     cout << "Enter the position of the node to be inserted: " << endl;
     cin >> position;
@@ -180,7 +189,7 @@ void linkedlist:: insert()
         }
         else
         {
-            node *temp = head;
+            node<TYPE> *temp = head;
             for(int i = 1; i < position - 1; i++)
             {
                 temp = temp->next;
@@ -193,14 +202,15 @@ void linkedlist:: insert()
 }
 
 // The search Function : searches for a given value in the list
-void linkedlist:: search()
+template <class TYPE>
+void linkedlist<TYPE>:: search()
 {
     int value;
     cout << "Enter the value of the node to be searched: " << endl;
     cin >> value;
     int index;
     bool flag = false;
-    node *temp = head;
+    node<TYPE> *temp = head;
     for (int i = 0; temp != NULL; temp = temp->next, i++)
     {
         if(temp->data == value)
@@ -223,8 +233,8 @@ void linkedlist:: search()
 // Main Function - Creates a linked list and performs various operations on it
 int main(void)
 {
-    linkedlist list;
-    linkedlist list2;
+    linkedlist<char> list;
+    linkedlist<char> list2;
     int choice;
     do
     {

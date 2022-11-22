@@ -32,7 +32,6 @@ void insert<T>::sort()
 {
     for (i = 1; i < n ; i++)
     {
-        cout << "Pass :" << i  << " ";
         for (j = i; j > 0; j--)
         {
             if (a[j] < a[j - 1])
@@ -48,13 +47,15 @@ void insert<T>::sort()
             }   
             cout << endl;
         }
+        cout << "Pass " << i << ": ";
+        display();
+        cout << endl;
     }
 }
 
 template <class T>
 void insert<T> :: display()
 {
-    cout << "The sorted array is: ";
     for (i = 0; i < n; i++)
     {
         cout << a[i] << " ";
@@ -66,6 +67,7 @@ int main(void)
     insert<int> obj;
     obj.getdata();
     obj.sort();
+    cout << "The sorted array is: ";
     obj.display();
     return 0;
 }
