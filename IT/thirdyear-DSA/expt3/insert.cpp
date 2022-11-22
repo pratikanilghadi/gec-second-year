@@ -30,7 +30,7 @@ void insert<T>::getdata()
 template <class T>
 void insert<T>::sort()
 {
-    for (i = 1; i < n ; i++)
+    for (i = 1; i < n ; i=i+1)
     {
         for (j = i; j > 0; j--)
         {
@@ -40,12 +40,6 @@ void insert<T>::sort()
                 a[j] = a[j - 1];
                 a[j - 1] = temp;
             }
-            
-            for (int i = 0; i < n; i++)
-            {
-                cout << a[i] << " ";
-            }   
-            cout << endl;
         }
         cout << "Pass " << i << ": ";
         display();
@@ -56,9 +50,9 @@ void insert<T>::sort()
 template <class T>
 void insert<T> :: display()
 {
-    for (i = 0; i < n; i++)
+    for (int k = 0; k < n; k++)
     {
-        cout << a[i] << " ";
+        cout << a[k] << " ";
     }
 }
 
