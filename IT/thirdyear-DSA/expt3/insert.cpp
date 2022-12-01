@@ -30,9 +30,8 @@ void insert<T>::getdata()
 template <class T>
 void insert<T>::sort()
 {
-    for (i = 1; i < n ; i++)
+    for (i = 1; i < n ; i=i+1)
     {
-        cout << "Pass :" << i  << " ";
         for (j = i; j > 0; j--)
         {
             if (a[j] < a[j - 1])
@@ -41,23 +40,19 @@ void insert<T>::sort()
                 a[j] = a[j - 1];
                 a[j - 1] = temp;
             }
-            
-            for (int i = 0; i < n; i++)
-            {
-                cout << a[i] << " ";
-            }   
-            cout << endl;
         }
+        cout << "Pass " << i << ": ";
+        display();
+        cout << endl;
     }
 }
 
 template <class T>
 void insert<T> :: display()
 {
-    cout << "The sorted array is: ";
-    for (i = 0; i < n; i++)
+    for (int k = 0; k < n; k++)
     {
-        cout << a[i] << " ";
+        cout << a[k] << " ";
     }
 }
 
@@ -66,6 +61,7 @@ int main(void)
     insert<int> obj;
     obj.getdata();
     obj.sort();
+    cout << "The sorted array is: ";
     obj.display();
     return 0;
 }

@@ -29,7 +29,6 @@ void select<T>::getdata()
 template <class T>
 void select<T>:: display()
 {
-    cout << "The sorted array is: ";
     for (i = 0; i < n; i++)
     {
         cout << a[i] << " ";
@@ -54,6 +53,9 @@ void select<T>:: sort()
         temp = a[i];
         a[i] = a[pos];
         a[pos] = temp;
+        cout << "Pass " << i + 1 << ": ";
+        display();
+        cout << endl;
     }
 }
 
@@ -62,6 +64,7 @@ int main(void)
     select<int> s;
     s.getdata();
     s.sort();
+    cout << "The sorted array is: ";
     s.display();
     return 0;
 }

@@ -41,14 +41,17 @@ void bubble<T> :: sort()
                 a[j] = a[j + 1];
                 a[j + 1] = temp;
             }
+
         }
+        cout << "Pass " << i + 1 << ": ";
+        display();
+        cout << endl;;
     }
 }
 
 template <class T>
 void bubble<T> :: display()
 {
-    cout << "The sorted array is: ";
     for (int i = 0; i < n; i++)
     {
         cout << a[i] << " ";
@@ -64,6 +67,7 @@ int main(void)
     bubble<float> b(size);
     b.getdata();
     b.sort();
+    cout << "The sorted array is: ";
     b.display();
     return 0;
 }
