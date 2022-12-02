@@ -89,7 +89,7 @@ void linkedlist<TYPE>:: sort()
 template <class TYPE>
 void linkedlist<TYPE>:: create()
 {
-    int value;
+    TYPE value;
     cout << "Enter the value of the node: " << endl;
     cin >> value;
     node<TYPE> *p = new node<TYPE>(value);
@@ -168,7 +168,7 @@ void linkedlist<TYPE>:: remove()
 template <class TYPE>
 void linkedlist<TYPE>:: insert()
 {
-    int value;
+    TYPE value;
     cout << "Enter the value of the node: " << endl;
     cin >> value;
     node<TYPE> *p = new node<TYPE>(value);

@@ -4,32 +4,27 @@ using namespace std;
 
 // Node Defination
 //--------------------------Node Defination---------------------
+template<class VAR>
 class node
 {
     public:
-    int value;
+    VAR value;
     node *next;
     node *prev;
 
-    node()
-    {
-        value = 0;
-        next = NULL;
-        next = NULL;
-    }
-
-    node(int data)
+    node(VAR data)
     {
         value = data;
         next = NULL;
-        next = NULL;
+        prev = NULL;
     }
 };
 
 //---------------------------LinkedList Defination--------------
+template<class TYPE>
 class dlinkedlist
 {
-    node *head;
+    node<TYPE> *head;
     int count;
 
     public:
@@ -45,15 +40,16 @@ class dlinkedlist
     void display();
     void search();
     void sort();
-    dlinkedlist split();
-    void merge(dlinkedlist list2);
+    dlinkedlist<TYPE> split();
+    void merge(dlinkedlist<TYPE> list2);
 };
 
 //---------------------------Split Function---------------------
-dlinkedlist dlinkedlist:: split()
+template<class TYPE>
+dlinkedlist<TYPE> dlinkedlist<TYPE>:: split()
 {
-    dlinkedlist list2;
-    node *temp= head;
+    dlinkedlist<TYPE> list2;
+    node<TYPE> *temp= head;
     for (int i = 0; i < count/2; i++)
     {
         temp = temp->next;
@@ -65,9 +61,10 @@ dlinkedlist dlinkedlist:: split()
 }
 
 //---------------------------Merge Function---------------------
-void dlinkedlist:: merge(dlinkedlist list2)
+template<class TYPE>
+void dlinkedlist<TYPE>:: merge(dlinkedlist<TYPE> list2)
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
     while(temp->next != NULL)
         temp = temp->next;
     temp->next = list2.head;
@@ -75,12 +72,13 @@ void dlinkedlist:: merge(dlinkedlist list2)
 }
 
 //---------------------------Search Function--------------------
-void dlinkedlist:: search()
+template<class TYPE>
+void dlinkedlist<TYPE>:: search()
 {
-    int value;
+    TYPE value;
     cout << "Enter the value to be searched: ";
     cin >> value;
-    node *temp = head;
+    node<TYPE> *temp = head;
     int pos = 0;
     while(temp != NULL)
     {
@@ -96,13 +94,14 @@ void dlinkedlist:: search()
 }
 
 //---------------------------Sort Function----------------------
-void dlinkedlist:: sort()
+template<class TYPE>
+void dlinkedlist<TYPE>:: sort()
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
     int buffer;
     for (; temp->next != NULL; temp = temp->next)
     {
-        node *temp2 = temp;
+        node<TYPE> *temp2 = temp;
         for (; temp2->next != NULL; temp2 = temp2->next)
         {
             if(temp2->value > temp2->next->value)
@@ -116,7 +115,8 @@ void dlinkedlist:: sort()
 }
 
 //----------------------------Insert Funciton--------------------
-void dlinkedlist:: insert()
+template <class TYPE>
+void dlinkedlist<TYPE>:: insert()
 {
     int pos;
     cout << "Enter the position where the element is to be inserted" << endl;
@@ -127,10 +127,10 @@ void dlinkedlist:: insert()
         return;
     }
 
-    int data;
+    TYPE data;
     cout << "Enter the data to be inserted: ";
     cin >> data;
-    node *p = new node(data);
+    node<TYPE> *p = new node<TYPE>(data);
 
     if (pos == 1)
     {
@@ -140,7 +140,7 @@ void dlinkedlist:: insert()
             count++;
             return;
         }
-        node *temp = head;
+        node<TYPE> *temp = head;
         head->next->prev = p;
         p->next = head->next->prev;
         head = p;
@@ -149,7 +149,7 @@ void dlinkedlist:: insert()
 
     else
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         for (int i = 1; i < pos - 1; i++)
         {
             temp = temp->next;
@@ -164,13 +164,14 @@ void dlinkedlist:: insert()
 }
 
 //----------------------------Create Funciton--------------------
-void dlinkedlist:: create()
+template <class TYPE>
+void dlinkedlist<TYPE>:: create()
 {
-    int data;
+    TYPE data;
     cout << "Enter the value to be inserted" << endl;
     cin >> data;
 
-    node *p = new node(data);
+    node<TYPE> *p = new node<TYPE>(data);
     if (head == NULL)
     {
         head = p;
@@ -179,7 +180,7 @@ void dlinkedlist:: create()
 
     else
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         while (temp->next != NULL)
         {
             temp = temp->next;
@@ -192,7 +193,8 @@ void dlinkedlist:: create()
 }
 
 //----------------------------Remove Funciton--------------------
-void dlinkedlist:: remove()
+template <class TYPE>
+void dlinkedlist<TYPE>:: remove()
 {
     int pos;
     cout << "Enter the index of element to be removed" << endl;
@@ -205,7 +207,7 @@ void dlinkedlist:: remove()
 
     else if (pos == 1)
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         head = head->next;
         head->prev = NULL;
         delete(temp);
@@ -214,7 +216,7 @@ void dlinkedlist:: remove()
 
     else
     {
-        node *temp = head;
+        node<TYPE> *temp = head;
         for (int i = 1; i < pos; i++)
         {
             temp = temp->next;
@@ -227,23 +229,30 @@ void dlinkedlist:: remove()
 }
 
 //----------------------------Display Funciton-------------------
-void dlinkedlist:: display()
+template <class TYPE>
+void dlinkedlist<TYPE>:: display()
 {
-    node *temp = head;
+    node<TYPE> *temp = head;
+    if (head == NULL)
+    {
+        return;
+    }
+
+    cout << "[ ";
     while(temp != NULL)
     {
-        cout << temp->value << " ";
+        cout << temp->value << ", ";
         temp = temp->next;
     }
-    cout << endl;
+    cout << "]" << endl;
 }
 
 //----------------------------Main Defination---------------------
 //----------------------------Class Object: obj------------------
 int main()
 {
-    dlinkedlist obj;
-    dlinkedlist obj2;
+    dlinkedlist<char> obj;
+    dlinkedlist<char> obj2;
     int choice;
     while (1)
     {
