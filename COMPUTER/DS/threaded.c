@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+// #include <stdbool.h>
 
-typedef enum
-{false,true} boolean;
-
+typedef enum 
+{false,true}boolean;
 typedef struct node
 {
     struct node *left;
