@@ -121,8 +121,9 @@ int main()
     {
         cout << "1. Add" << endl;
         cout << "2. Remove" << endl;
-        cout << "3. Display" << endl;
-        cout << "4. Exit" << endl;
+        cout << "3. Remove tail" << endl;
+        cout << "4. Display" << endl;
+        cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -135,9 +136,12 @@ int main()
                 q.removehead();
                 break;
             case 3:
-                q.display();
+                q.removetail();
                 break;
             case 4:
+                q.display();
+                break;
+            case 5:
                 exit(0);
             default:
                 cout << "Invalid choice" << endl;
