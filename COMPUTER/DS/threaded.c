@@ -25,7 +25,7 @@ void inorder(node *root);
 
 int main()
 {
-    int op, nodes,data;
+    int op, nodes,data,i;
     node *root=NULL,*s=NULL;
     printf("Enter total number of nodes: ");
     scanf("%d", &nodes);
@@ -51,6 +51,7 @@ int main()
         printf("3-Search an element\n");
         printf("4-Inorder Traversal\n");
         printf("5-Exit\n");
+        printf("Enter your choice: ");
         scanf("%d", &op);
 
         switch(op)
@@ -74,7 +75,7 @@ int main()
                    s=search(root,data);
                    if(s!=NULL)
                    {
-                    printf("Element found!!");
+                    printf("Element found!!\n");
                    }
                    break;
             
@@ -85,7 +86,7 @@ int main()
             case 5:exit(1);
             
 
-            default:printf("Invalid choice");
+            default:printf("Invalid choice\n");
         }//end of switch
     }//end of while loop
 } // end of main
@@ -129,7 +130,7 @@ node *insert(node *root, int ikey)
     }
     if (found)
     {
-        printf("Duplicate key");
+        printf("Duplicate key\n");
     }
     else
     {
@@ -200,7 +201,7 @@ node *del(node *root,int dkey)
     }
     if(found==0)
     {
-        printf("Element not found");
+        printf("Element not found\n");
     }
     else if(p->lthread==false && p->rthread==false)
     {
@@ -365,7 +366,7 @@ void inorder(node *root)
     node *p;
     if(root==NULL)
     {
-        printf("Tree is empty");
+        printf("Tree is empty\n");
         return;
     }
     p=root;
