@@ -26,7 +26,7 @@ void merge::getdata()
 
 void merge:: join(int arr[],int min,int mid,int max)
 {
-    for (int i = min; i < mid; i++)
+    for (int i = min; i < mid + 1; i++)
     {
         for (int j = mid; j < max; j++)
         {
@@ -47,18 +47,26 @@ void merge::sort(int arr[],int min,int max)
     {
         mid = (min + max) / 2;
         sort(arr,min,mid);
+        display();
         sort(arr,mid+1,max);
+        display();
+        join(arr,min,mid,max);
+        display();
+    }
+
+    if ( min == max)
+    {
         join(arr,min,mid,max);
     }
 }
 
 void merge::display()
 {
-    cout << "The sorted array is:";
     for (int var = 0; var < n; var++)
     {
         cout << a[var] << " ";
     }
+    cout << endl;
 }
 
 
