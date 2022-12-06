@@ -31,7 +31,6 @@ int widthlevel(node *p,int level);
 int min(node *p);
 int max(node *p);
 void newinorder(node *p);
-
 int array[100];
 
 int main()
@@ -87,9 +86,7 @@ int main()
                      scanf("%d",&a);
                      s=search(root,a);
                      if(s!=NULL)
-                     {
-                            printf("Element found !!\n");
-                     }
+                     { printf("Element found !!\n");}
                      break;
 
               case 4:printf("Width of the tree is: %d",MAXwidth(root));
@@ -108,9 +105,7 @@ int main()
 
               default:printf("Invalid choice\n");
        }//end of switch
-
  }//end of while loop
-
 }//end of main
 
 node *insert(node *pptr,int ikey)
@@ -129,17 +124,13 @@ node *insert(node *pptr,int ikey)
  {
   pptr->left=insert(pptr->left,ikey);
   if(taller==TRUE)
-  {
-        pptr=insert_left_check(pptr,&taller);
-  }
+  { pptr=insert_left_check(pptr,&taller);}
  }
   else if(ikey>pptr->info)
   {
    pptr->right=insert(pptr->right,ikey);
    if(taller==TRUE)
-   {
-       pptr=insert_right_check(pptr,&taller);
-   }
+   { pptr=insert_right_check(pptr,&taller);}
   }
   else
   {
@@ -268,9 +259,7 @@ node *insert_right_Balance(node *pptr)
 void inorder(node *p)
 {
        if(p==NULL)
-       {
-              return;
-       }
+       { return;}
 
        inorder(p->left);
        printf("%d ",p->info);
@@ -292,17 +281,13 @@ node *del(node *pptr,int d)
        {
               pptr->left=del(pptr->left,d);
               if(shorter==TRUE)
-              {
-                     pptr=del_left_check(pptr,&shorter);
-              }
+              {  pptr=del_left_check(pptr,&shorter);}
        }
        else if(d>pptr->info)
        {
               pptr->right=del(pptr->right,d);
               if(shorter==TRUE)
-              {
-                     pptr=delete_right_check(pptr,&shorter);
-              }
+              { pptr=delete_right_check(pptr,&shorter); }
        }
        else
        {
@@ -310,31 +295,21 @@ node *del(node *pptr,int d)
               {
                      succ=pptr->right;
                      while(succ->left!=NULL)
-                     {
-                            succ=succ->left;
-                     }
+                     {  succ=succ->left; }
                      pptr->info=succ->info;
                      pptr->right=del(pptr->right,succ->info);
                      if(shorter==TRUE)
-                     {
-                            pptr=delete_right_check(pptr,&shorter);
-                     }
+                     { pptr=delete_right_check(pptr,&shorter);}
               }
               else
               {
                      temp=pptr;
                      if(pptr->left!=NULL)
-                     {
-                            pptr=pptr->left;
-                     }
+                     {  pptr=pptr->left; }
                      else if(pptr->right!=NULL)
-                     {
-                            pptr=pptr->right;
-                     }
+                     { pptr=pptr->right; }
                      else
-                     {
-                            pptr=NULL;
-                     }
+                     { pptr=NULL; }
                      free(temp);
                      shorter=TRUE;
               }
@@ -464,17 +439,11 @@ node *search(node *p,int s)
               return NULL;
        }
        else if(s<p->info)
-       {
-              return search(p->left,s);
-       }
+       { return search(p->left,s);}
        else if(s>p->info)
-       {
-              return search(p->right,s);
-       }
+       { return search(p->right,s); }
        else
-       {
-              return p;
-       }
+       { return p; }
 }
 
 int MAXwidth(node *p)
@@ -485,11 +454,8 @@ int MAXwidth(node *p)
        for(int i=1;i<=h;i++)
        {
               width=widthlevel(p,i);
-
               if(width>maxwidth)
-              {
-                     maxwidth=width;
-              }
+              {  maxwidth=width; }
        }
        return maxwidth;
 }
@@ -498,75 +464,49 @@ int height(node *p)
 {
        int lheight,rheight;
        if(p==NULL)
-       {
-              return 0;
-       }
+       { return 0; }
        lheight=height(p->left);
        rheight=height(p->right);
        if(lheight>rheight)
-       {
-              return lheight+1;
-       }
+       { return lheight+1; }
        else
-       {
-              return rheight+1;
-       }
+       { return rheight+1; }
 }
 
 int widthlevel(node *p,int level)
 {
        if(p==NULL)
-       {
-              return 0;
-       }
+       { return 0; }
        if(level==1)
-       {
-              return 1;
-       }
+       { return 1;}
        else 
-       {
-              return widthlevel(p->left,level-1)+widthlevel(p->right,level-1);
-       }
+       { return widthlevel(p->left,level-1)+widthlevel(p->right,level-1); }
 }
 
 int max(node *p)
 {
        if(p==NULL)
-       {
-              return NULL;
-       }
+       { return NULL; }
        else if(p->right==NULL)
-       {
-              return p->info;
-       }
+       { return p->info; }
        else
-       {
-              return max(p->right);
-       }
+       { return max(p->right);}
 }
 
 int min(node *p)
 {
        if(p==NULL)
-       {
-              return NULL;
-       }
+       { return NULL; }
        else if(p->left==NULL)
-       {
-              return p->info;
-       }
+       { return p->info; }
        else
-       {
-              return min(p->left);
-       }
+       { return min(p->left); }
 }
 
 void newinorder(node *p)
 {
        if(p==NULL)
-       {
-              return;
-       }
+       { return; }
        newinorder(p->right);
        printf("%d ",p->info);
        newinorder(p->left);
