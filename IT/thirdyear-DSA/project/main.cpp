@@ -6,23 +6,23 @@
 #include <ctime>
 #include <windows.h>
 
-enum months
-{
-    jan = 1,
-    feb = 2,
-    mar = 3,
-    apr = 4,
-    may = 5,
-    jun = 6,
-    jul = 7,
-    aug = 8,
-    sep = 9,
-    oct = 10,
-    nov = 11,
-    dec = 12
-};
-
 using namespace std;
+
+int give_month(string month1)
+{
+    if (month1 == "Jan") return 1;
+    else if (month1 == "Feb") return 2;
+    else if (month1 == "Mar") return 3;
+    else if (month1 == "Apr") return 4;
+    else if (month1 == "May") return 5;
+    else if (month1 == "Jun") return 6;
+    else if (month1 == "Jul") return 7;
+    else if (month1 == "Aug") return 8;
+    else if (month1 == "Sep") return 9;
+    else if (month1 == "Oct") return 10;
+    else if (month1 == "Nov") return 11;
+    else return 12;
+}
 
 string get_time()
 {
@@ -41,8 +41,13 @@ class node
     string due_time;
     node *next;
     int level;
+    node()
+    {
+        status = false;
+        next = NULL;
+        level = 0;
+    }
 };
-
 
 class todo_queue
 {
@@ -60,25 +65,190 @@ class todo_queue
     void greet();
     void start();
     void add();
+    void add(node *temp);
     void view();
     void update();
-    void delete_task();
+    node* extract(node *current);
 };
 
-//Todo -------------------------------VOID UPDATE()---------------------------------!
+//! -------------------------------VOID UPDATE()---------------------------------!
 /*! 
     This function updates the status of the task
 */
+void todo_queue:: update()
+{
+    system("cls");
+    node* current = head;
+    if (current == NULL)
+    {
+        cout << "No tasks to display" << endl;
+        return;
+    }
 
-//Todo -------------------------------VOID DELETE_TASK()---------------------------------!
+    int count = 0;
+    while (current != NULL)
+    {
+        count++;
+        cout << count << ". " << current->task << endl;
+        cout << "Priority: " << current->priority << "\t" << "Due time: " << current->due_time << "\t" << "Status: " << current->status << endl;
+        cout << endl;
+    }
+
+    cout << "Enter the task number to update: ";
+    int task_number;
+    cin >> task_number;
+    current = head;
+    for (int i = 1; i < task_number; i++)
+    {
+        current = current->next;
+    }
+    node *temp = extract(current);
+    
+    cout << "What is the status of the task? " << endl;
+    cout << "1. Completed" << endl;
+    cout << "2. Incomplete" << endl;
+    int stat;
+    cin >> stat;
+    if (stat == 1)
+    {
+        temp->status = true;
+    }
+    else
+    {
+        temp->status = false;
+    }
+
+    if (temp->status == true)
+    {
+        delete(temp);
+        return;
+    }
+
+    cout << "Would you want to change the priority of the task? " << endl;
+    cout << "1. Yes" << endl;
+    cout << "2. No" << endl;
+    int choice;
+    cin >> choice;
+
+    if (choice == 1)
+    {
+        cout << "Enter the new priority of the task: ";
+        string priority;
+        cin >> priority;
+        temp->priority = priority;
+    }
+
+    cout << "Would you want to change the due time of the task? " << endl;
+    cout << "1. Yes" << endl;
+    cout << "2. No" << endl;
+    cin >> choice;
+
+    if (choice == 1)
+    {
+        add(temp);
+    }
+
+    return;
+}
+
+//! -------------------------------VOID EXRACT()---------------------------------!
 /*! 
-    This function deletes the task from the queue
+    This function removes the task from the queue and returns the task node
 */
+node *todo_queue:: extract(node *current)
+{
+    node *temp = current;
+    current = current->next;
+    return temp;
+}
 
-//Todo -------------------------------VOID VIEW()---------------------------------!
+
+//! -------------------------------VOID VIEW()---------------------------------!
 /*! 
     This function displays the tasks in the queue
 */
+void todo_queue:: view()
+{
+    system("cls");
+    node *current = head;
+    if (current == NULL)
+    {
+        cout << "No tasks to display" << endl;
+        return;
+    }
+
+    int count = 0;
+    while (current != NULL)
+    {
+        count++;
+        cout << count << ". " << current->task << endl;
+        cout << "Priority: " << current->priority << "\t" << "Due time: " << current->due_time << "\t" << "Status: " << current->status << endl;
+        cout << endl;
+    }
+}
+
+//! -------------------------------VOID ADD() modded---------------------------------!
+/*! 
+    This function adds a task to the queue
+*/
+void todo_queue:: add(node *temp)
+{
+    cout << "Enter the due time of the task in the format dd/mm/yyyy " << endl;
+    cout << "Enter the date: ";
+    int date;
+    cin >> date;
+    cout << "Enter the month: ";
+    int month;
+    cin >> month;
+    cout << "Enter the year: ";
+    int year;
+    cin >> year;
+
+    string due_time = to_string(date) + "/" + to_string(month) + "/" + to_string(year);
+
+    string time = get_time();
+    // seperate each word from the string into individual strings
+    string month1 = time.substr(4, 3);
+    string date1 = time.substr(8, 2);
+    string year1 = time.substr(20, 4);
+    
+    time = month1 + " " + date1 + " " + year1;
+
+    temp->due_time = due_time;
+    temp->status = false;
+    temp->time = time;
+    int diff_year = stoi(year1) - year;
+    int diff_month = give_month(month1) - month;
+    int diff_date = stoi(date1) - date;
+    int level = diff_year * 365 + diff_month * 30 + diff_date;
+
+    if (head == NULL)
+    {
+        head = temp;
+        tail = temp;
+    }
+
+    else
+    {
+        node *current = head;
+        if (level < current->level)
+        {
+            temp->next = head;
+            head = temp;
+        }
+
+        else
+        {
+            while (current->next != NULL && level > current->next->level)
+            {
+                current = current->next;
+            }
+
+            temp->next = current->next;
+            current->next = temp;
+        }
+    }
+}
 
 //! -------------------------------VOID ADD()---------------------------------!
 /*! 
@@ -113,7 +283,7 @@ void todo_queue:: add()
     string date1 = time.substr(8, 2);
     string year1 = time.substr(20, 4);
     
-    string time = month1 + " " + date1 + " " + year1;
+    time = month1 + " " + date1 + " " + year1;
 
     node *temp = new node;
     temp->task = task;
@@ -122,7 +292,7 @@ void todo_queue:: add()
     temp->status = false;
     temp->time = time;
     int diff_year = stoi(year1) - year;
-    int diff_month = stoi(month1) - month;
+    int diff_month = give_month(month1) - month;
     int diff_date = stoi(date1) - date;
     int level = diff_year * 365 + diff_month * 30 + diff_date;
 
@@ -231,6 +401,6 @@ int main()
     todo_queue object;
     object.greet();
     Sleep(3);
-    //object.start();
+    object.start();
     return 0;
 }
