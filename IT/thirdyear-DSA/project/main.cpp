@@ -184,6 +184,7 @@ void todo_queue:: view()
         cout << count << ". " << current->task << endl;
         cout << "Priority: " << current->priority << "\t" << "Due time: " << current->due_time << "\t" << "Status: " << current->status << endl;
         cout << endl;
+        current = current->next;
     }
 }
 
