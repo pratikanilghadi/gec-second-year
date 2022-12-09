@@ -186,6 +186,7 @@ void todo_queue:: view()
         cout << endl;
         current = current->next;
     }
+    cin.get();
 }
 
 //! -------------------------------VOID ADD() modded---------------------------------!
@@ -347,6 +348,8 @@ void todo_queue:: start()
             break;
         case 2:
             view();
+            cout << "Enter any key to continue";
+            cin.get();
             break;
         case 3:
             update();
