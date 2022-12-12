@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #define MAX 50
 typedef struct node 
 {
@@ -24,6 +25,9 @@ void queueinsert(treenode *item);
 treenode *queuedelete();
 int queueempty();
 void levelorder(treenode *root);
+void spiral(treenode *root);
+void printlevel(treenode *root,int level,bool ltr);
+void post(treenode *ptr);
 
 treenode *queue[MAX];
 int front=-1,rear=-1;
@@ -36,36 +40,45 @@ int main()
  treenode *tree;
  printf("Enter number of nodes : ");
  scanf("%d",&n);
- printf("Enter inorder traversal\n");
+ printf("\nEnter Inorder traversal\n");
  inorder=create(inorder,n);
- printf("Enter postorder traversal\n");
+ printf("\nEnter Postorder traversal\n");
  postorder=create(postorder,n);
  tree=construct(inorder,postorder,n);
- printf("TREE CONSTRUCTED");
+ printf("\nTREE CONSTRUCTED\n");
+ printf("\nPostorder traversal : ");
+ post(tree);
+
 
  while(1)
  {
-  printf("\n1-find height of tree\n");
+  printf("\n--------------------\n");
+  printf("1-find height of tree\n");
   printf("2-find depth of a node\n");
   printf("3-to perform level order traversal\n");
   printf("4-to perform spiral traversal\n");
   printf("5-to exit\n");
+  printf("Enter your choice : ");
   scanf("%d",&op);
 
   switch(op)
   {
-   case 1:printf("Height of tree is %d",height(tree));
+   case 1:printf("\nHeight of tree is %d\n",height(tree));
           break;
 
-   case 2:printf("Enter the value of node whose depth is to be found");
+   case 2:printf("\nEnter the value of node whose depth is to be found : ");
           scanf("%d",&n);
           printf("Depth of node is %d\n",depth(tree,n));
           break;
 
-   case 3:levelorder(tree);
+   case 3:printf("\nlevel order traversal is :");
+          levelorder(tree);
+          printf("\n");
           break;
 
-  case 4:printf("Spiral traversal is :");
+  case 4:printf("\nSpiral traversal is :");
+               spiral(tree);
+               printf("\n");
          break;
 
   case 5:exit(1);
@@ -179,25 +192,17 @@ int height(treenode *ptr)
 
 int depth(treenode *ptr,int data)
 {
- int dleft,dright;
+ int n;
  if(ptr==NULL)
  {
-  return 0;
+  return -1;     
  }
- if(ptr->value==data)
+ n=-1;
+ if((ptr->value==data) || (n=depth(ptr->left,data))>=0 || (n=depth(ptr->right,data))>=0)
  {
-  return 1;
- }
- dleft=depth(ptr->left,data);
- dright=depth(ptr->right,data);
- if(dleft>dright)
- {
-  return 1+dleft;
- }
- else
- {
-  return 1+dright;
- }
+  return n+1;
+ }      
+ return n;
 }
 
 void queueinsert(treenode *item)
@@ -263,4 +268,53 @@ void levelorder(treenode *root)
               }
        }
        printf("\n");
+}
+
+void spiral(treenode *root)
+{
+       int c=height(root);
+       int i;
+       bool ltr=false;
+       for(i=1;i<=c;i++)
+       {
+              printlevel(root,i,ltr);
+              ltr=!ltr;
+       }
+
+}
+
+void printlevel(treenode *root,int level,bool ltr)
+{
+       if(root==NULL)
+       {
+              return;
+       }
+       if(level==1)
+       {
+              printf("%d ",root->value);
+       }
+       else if(level>1)
+       {
+              if(ltr)
+              {
+                     printlevel(root->left,level-1,ltr);
+                     printlevel(root->right,level-1,ltr);
+              }
+              else
+              {
+                     printlevel(root->right,level-1,ltr);
+                     printlevel(root->left,level-1,ltr);
+              }
+       }
+}
+
+void post(treenode *ptr)
+{
+ if(ptr==NULL)
+ {
+  return;     
+ }
+ post(ptr->left);
+ post(ptr->right);
+ printf("%d ",ptr->value);      
 }
