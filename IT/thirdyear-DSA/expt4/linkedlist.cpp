@@ -249,6 +249,7 @@ int main(void)
         cout << "9. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
+        
         switch(choice)
         {
             case 1:
