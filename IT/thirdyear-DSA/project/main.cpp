@@ -219,7 +219,7 @@ void todo_queue:: add(node *temp)
     int year;
     cin >> year;
 
-    string due_time = to_string(date) + "/" + to_string(month) + "/" + to_string(year);
+    temp->due_time = to_string(date) + "/" + to_string(month) + "/" + to_string(year);
 
     string time = get_time();
     // seperate each word from the string into individual strings
@@ -227,11 +227,8 @@ void todo_queue:: add(node *temp)
     string date1 = time.substr(8, 2);
     string year1 = time.substr(20, 4);
     
-    time = month1 + " " + date1 + " " + year1;
-
-    temp->due_time = due_time;
-    temp->status = false;
-    temp->time = time;
+    temp->time = month1 + " " + date1 + " " + year1;
+    
     int level = stoi(year1) * 10000 + give_month(month1) * 100 + stoi(date1);
 
     if (head == NULL)
@@ -243,22 +240,14 @@ void todo_queue:: add(node *temp)
     else
     {
         node *current = head;
-        if (level < current->level)
+    
+        while ((current->next->next != NULL && level > current->next->level) || current->next != NULL)
         {
-            temp->next = head;
-            head = temp;
+            current = current->next;
         }
 
-        else
-        {
-            while (current->next != NULL && level > current->next->level)
-            {
-                current = current->next;
-            }
-
-            temp->next = current->next;
-            current->next = temp;
-        }
+        temp->next = current->next;
+        current->next = temp;
     }
 }
 
@@ -316,22 +305,15 @@ void todo_queue:: add()
     else
     {
         node *current = head;
-        if (level < current->level)
+        while (current->next != NULL && level > current->level)
         {
-            temp->next = head;
-            head = temp;
+            if (level < current->level)
+                break;
+            current = current->next;
         }
 
-        else
-        {
-            while (current->next != NULL && level > current->next->level)
-            {
-                current = current->next;
-            }
-
-            temp->next = current->next;
-            current->next = temp;
-        }
+        temp->next = current->next;
+        current->next = temp;
     }
 }
 //! -------------------------------VOID START()---------------------------------!
@@ -343,11 +325,12 @@ void todo_queue:: start()
     int choice;
     do
     {
+        choice = 0;
         system("cls");
         cout << "1. Add a task" << endl;
         cout << "2. View the tasks" << endl;
         cout << "3. Update the status of the task" << endl;
-        cout << "5. Exit" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         switch (choice)
@@ -364,12 +347,12 @@ void todo_queue:: start()
             update();
             break;
         case 4:
+            system("cls");
             break;
         default:
             cout << "Invalid choice" << endl;
             break;
         }
-        choice = 0;
     } while (choice != 4);
 }
 
