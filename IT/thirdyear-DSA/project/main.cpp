@@ -92,17 +92,29 @@ void todo_queue:: update()
         cout << count << ". " << current->task << endl;
         cout << "Priority: " << current->priority << "\t" << "Due time: " << current->due_time << "\t" << "Status: " << current->status << endl;
         cout << endl;
+        current = current->next;
     }
 
     cout << "Enter the task number to update: ";
     int task_number;
     cin >> task_number;
     current = head;
-    for (int i = 1; i < task_number; i++)
+    
+    node *temp = head;
+    if (task_number == 1)
     {
-        current = current->next;
+        current = head;
+        head = head->next;
+        temp = current;
     }
-    node *temp = extract(current);
+    else
+    {
+        for (int i = 1; i < task_number - 1; i++)
+        {
+            current = current->next;
+        }
+        temp = extract(current);
+    }
     
     cout << "What is the status of the task? " << endl;
     cout << "1. Completed" << endl;
@@ -157,8 +169,8 @@ void todo_queue:: update()
 */
 node *todo_queue:: extract(node *current)
 {
-    node *temp = current;
-    current = current->next;
+    node *temp = current -> next;
+    current->next = current->next->next;
     return temp;
 }
 
@@ -174,6 +186,7 @@ void todo_queue:: view()
     if (current == NULL)
     {
         cout << "No tasks to display" << endl;
+        Sleep(1000);
         return;
     }
 
@@ -206,7 +219,7 @@ void todo_queue:: add(node *temp)
     int year;
     cin >> year;
 
-    string due_time = to_string(date) + "/" + to_string(month) + "/" + to_string(year);
+    temp->due_time = to_string(date) + "/" + to_string(month) + "/" + to_string(year);
 
     string time = get_time();
     // seperate each word from the string into individual strings
@@ -214,15 +227,9 @@ void todo_queue:: add(node *temp)
     string date1 = time.substr(8, 2);
     string year1 = time.substr(20, 4);
     
-    time = month1 + " " + date1 + " " + year1;
-
-    temp->due_time = due_time;
-    temp->status = false;
-    temp->time = time;
-    int diff_year = stoi(year1) - year;
-    int diff_month = give_month(month1) - month;
-    int diff_date = stoi(date1) - date;
-    int level = diff_year * 365 + diff_month * 30 + diff_date;
+    temp->time = month1 + " " + date1 + " " + year1;
+    
+    int level = stoi(year1) * 10000 + give_month(month1) * 100 + stoi(date1);
 
     if (head == NULL)
     {
@@ -233,22 +240,14 @@ void todo_queue:: add(node *temp)
     else
     {
         node *current = head;
-        if (level < current->level)
+    
+        while ((current->next->next != NULL && level > current->next->level) || current->next != NULL)
         {
-            temp->next = head;
-            head = temp;
+            current = current->next;
         }
 
-        else
-        {
-            while (current->next != NULL && level > current->next->level)
-            {
-                current = current->next;
-            }
-
-            temp->next = current->next;
-            current->next = temp;
-        }
+        temp->next = current->next;
+        current->next = temp;
     }
 }
 
@@ -260,7 +259,8 @@ void todo_queue:: add()
 {
     cout << "Enter the task: "; 
     string task;
-    cin >> task;
+    cin.ignore();
+    getline(cin, task);  
 
     cout << "Enter the priority of the task: ";
     string priority;
@@ -293,10 +293,8 @@ void todo_queue:: add()
     temp->due_time = due_time;
     temp->status = false;
     temp->time = time;
-    int diff_year = stoi(year1) - year;
-    int diff_month = give_month(month1) - month;
-    int diff_date = stoi(date1) - date;
-    int level = diff_year * 365 + diff_month * 30 + diff_date;
+    
+    int level = stoi(year1) * 10000 + give_month(month1) * 100 + stoi(date1);
 
     if (head == NULL)
     {
@@ -307,22 +305,15 @@ void todo_queue:: add()
     else
     {
         node *current = head;
-        if (level < current->level)
+        while (current->next != NULL && level > current->level)
         {
-            temp->next = head;
-            head = temp;
+            if (level < current->level)
+                break;
+            current = current->next;
         }
 
-        else
-        {
-            while (current->next != NULL && level > current->next->level)
-            {
-                current = current->next;
-            }
-
-            temp->next = current->next;
-            current->next = temp;
-        }
+        temp->next = current->next;
+        current->next = temp;
     }
 }
 //! -------------------------------VOID START()---------------------------------!
@@ -334,11 +325,12 @@ void todo_queue:: start()
     int choice;
     do
     {
+        choice = 0;
         system("cls");
         cout << "1. Add a task" << endl;
         cout << "2. View the tasks" << endl;
         cout << "3. Update the status of the task" << endl;
-        cout << "5. Exit" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         switch (choice)
@@ -355,7 +347,7 @@ void todo_queue:: start()
             update();
             break;
         case 4:
-            exit(0);
+            system("cls");
             break;
         default:
             cout << "Invalid choice" << endl;
@@ -394,9 +386,9 @@ void todo_queue::greet()
     cout << "2. View the tasks, this will show all the pending task which are to be done" << endl;
     cout << "3. Update the status of the task, this will update the status of the task " << endl;
     cout << endl << endl << endl;
-    cout << "This Project was made by: Pratik Ghadi and Madhure Komarpant" << endl;
-    //Sleep to make the program wait for 3 seconds
-    Sleep(3000);
+    cout << "This Project was made by: Pratik Ghadi and Madhura Komarpant" << endl;
+    cout << "Enter any key to continue" << endl;
+    cin.get();
     system("cls");
 }
 
@@ -404,7 +396,6 @@ int main()
 {
     todo_queue object;
     object.greet();
-    Sleep(3);
     object.start();
     return 0;
 }

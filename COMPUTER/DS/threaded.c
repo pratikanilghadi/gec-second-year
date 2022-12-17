@@ -87,6 +87,7 @@ int main()
     }//end of while loop
 } // end of main
 
+//! Insert Function --------------------------------------------------------------------------------
 node *insert(node *root, int ikey)
 {
     node *temp, *par, *p;
