@@ -1,5 +1,5 @@
-/*Using standard library string class , implement a program to check whether the given string is palindrome or not*/
-
+/*Palindrome*/
+//Q 5A
 #include<iostream>
 #include<string>
 
@@ -21,12 +21,8 @@ int main()
   }
  }
  if(flag==1)
- {
-  cout<<"String is not a palindrome";
- }
+ { cout<<"String is not a palindrome"; }
  else
- {
-  cout<<"String is a palindrome";
- }
+ { cout<<"String is a palindrome"; }
  return 0;
 }
