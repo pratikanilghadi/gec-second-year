@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-// #include <stdbool.h>
 
 typedef enum 
 {false,true}boolean;
+
 typedef struct node
 {
     struct node *left;
@@ -12,6 +12,7 @@ typedef struct node
     boolean rthread;
     struct node *right;
 }node;
+
 int array[50];
 node *insert(node *root, int ikey);
 node *del(node *root,int dkey);
@@ -37,10 +38,8 @@ int main()
     }
 
     for (int i = 0; i < nodes; i++)
-    {
-        root = insert(root, array[i]);
-    }
-    printf("Inorder Travsersal: ");
+    { root = insert(root, array[i]); }
+    printf("\nInorder Travsersal: ");
     inorder(root);
 
     while(1)
@@ -56,14 +55,14 @@ int main()
 
         switch(op)
         {
-            case 1:printf("Enter the element: ");
+            case 1:printf("\nEnter the element: ");
                    scanf("%d",&data);
                    root=insert(root,data);
                    printf("Inorder Traversal after Inserting %d: ",data);
                    inorder(root);
                    break;
 
-           case 2:printf("Enter the element: ");
+           case 2:printf("\nEnter the element: ");
                   scanf("%d",&data);
                   root=del(root,data);
                   printf("Inorder Traversal after Deleting %d: ",data);
@@ -74,9 +73,7 @@ int main()
                    scanf("%d",&data);
                    s=search(root,data);
                    if(s!=NULL)
-                   {
-                    printf("Element found!!\n");
-                   }
+                   { printf("Element found!!\n"); }
                    break;
             
             case 4:printf("Inorder Traversal: ");
@@ -84,8 +81,7 @@ int main()
                    break;
 
             case 5:exit(1);
-            
-
+        
             default:printf("Invalid choice\n");
         }//end of switch
     }//end of while loop
@@ -109,30 +105,20 @@ node *insert(node *root, int ikey)
         if (ikey < p->info)
         {
             if (p->lthread == false)
-            {
-                p = p->left;
-            }
+            { p = p->left; }
             else
-            {
-                break;
-            }
+            { break; }
         }
         else
         {
             if (p->rthread == false)
-            {
-                p = p->right;
-            }
+            { p = p->right; }
             else
-            {
-                break;
-            }
+            { break; }
         }
     }
     if (found)
-    {
-        printf("Duplicate key\n");
-    }
+    { printf("Duplicate key\n"); }
     else
     {
         temp=(node *)malloc(sizeof(node));
@@ -180,55 +166,35 @@ node *del(node *root,int dkey)
         if(dkey<p->info)
         {
             if(p->lthread==false)
-            {
-                p=p->left;
-            }
+            { p=p->left; }
             else
-            {
-                break;
-            }
+            { break; }
         }
         else
         {
             if(p->rthread==false)
-            {
-                p=p->right;
-            }
+            { p=p->right; }
             else
-            {
-                break;
-            }
+            { break; }
         }
     }
     if(found==0)
-    {
-        printf("Element not found\n");
-    }
+    { printf("Element not found!!\n"); }
     else if(p->lthread==false && p->rthread==false)
-    {
-        root=case_c(root,par,p);
-    }
+    { root=case_c(root,par,p); }
     else if(p->lthread==false)
-    {
-        root=case_b(root,par,p);
-    }
+    { root=case_b(root,par,p); }
     else if(p->rthread==false)
-    {
-        root=case_b(root,par,p);
-    }
+    { root=case_b(root,par,p); }
     else
-    {
-        root=case_a(root,par,p);
-    }
+    { root=case_a(root,par,p); }
     return root;
 }
 
 node *case_a(node *root,node *par,node *p)
 {
     if(par==NULL)
-    {
-        root=NULL;
-    }
+    { root=NULL; }
     else if(p==par->left)
     {
         par->lthread=true;
@@ -247,37 +213,23 @@ node *case_b(node *root,node *par,node *p)
 {
     node *child,*s,*pr;
     if(p->lthread==false)
-    {
-        child=p->left;
-    }
+    { child=p->left; }
     else
-    {
-        child=p->right;
-    }
+    { child=p->right; }
     if(par==NULL)
-    {
-        root=child;
-    }
+    { root=child; }
     else if(p==par->left)
-    {
-        par->left=child;
-    }
+    { par->left=child; }
     else
-    {
-        par->right=child;
-    }
+    { par->right=child; }
     s=in_succ(p);
     pr=in_pred(p);
     if(p->lthread==false)
-    {
-        p->right=s;
-    }
+    { p->right=s; }
     else
     {
         if(p->rthread==false)
-        {
-            s->left=pr;
-        }
+        { s->left=pr; }
     }
     free(p);
     return root;
@@ -286,16 +238,12 @@ node *case_b(node *root,node *par,node *p)
 node *in_succ(node *p)
 {
     if(p->rthread==true)
-    {
-        return p->right;
-    }
+    { return p->right; }
     else
     {
         p=p->right;
         while(p->lthread==false)
-        {
-            p=p->left;
-        }
+        { p=p->left; }
         return p;
     }
 }
@@ -303,18 +251,13 @@ node *in_succ(node *p)
 node *in_pred(node *p)
 {
     if(p->lthread==true)
-    {
-        return p->left;
-    }
+    { return p->left; }
     else
     {
         p=p->left;
         while(p->rthread==false)
-        {
-            p=p->right;
-        }
+        { p=p->right; }
         return p;
-
     }
 }
 
@@ -330,13 +273,9 @@ node *case_c(node *root,node *par,node *p)
     }
     p->info=succ->info;
     if(succ->lthread==true && succ->rthread==true)
-    {
-        root=case_a(root,parsucc,succ);
-    }
+    {  root=case_a(root,parsucc,succ); }
     else
-    {
-        root=case_b(root,parsucc,succ);
-    }
+    { root=case_b(root,parsucc,succ); }
     return root;
 }
 
@@ -345,21 +284,15 @@ node *search(node *root,int skey)
     node *p=root;
     if(p==NULL)
     {
-        printf("Element not found\n");
+        printf("Element not found!!\n");
         return NULL;
     }
     else if(skey < p->info)
-    {
-        return search (p->left,skey);
-    }
+    { return search (p->left,skey); }
     else if(skey > p->info)
-    {
-        return search(p->right,skey);
-    }
+    { return search(p->right,skey); }
     else
-    {
-        return p;
-    }
+    { return p; }
 }
 
 void inorder(node *root)
@@ -372,9 +305,7 @@ void inorder(node *root)
     }
     p=root;
     while(p->lthread==false)
-    {
-        p=p->left;
-    }
+    {  p=p->left; }
     while(p!=NULL)
     {
         printf("%d ",p->info);
