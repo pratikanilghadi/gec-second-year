@@ -1,5 +1,5 @@
-/*Write a c++ program to explain the concept of stack unwinding incase of exception handling*/
-
+/*Concept of stack unwinding*/
+//Q 4C
 #include<iostream>
 
 using namespace std;
