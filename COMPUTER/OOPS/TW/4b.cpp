@@ -1,5 +1,5 @@
-/*wite a c++ template function , called exchange () that accepts two arguments of generic tyoe and swap their contents*/
-
+/*Write a c++ template function . called exchange() that accepts two arguments of generic type and swap them*/
+//Q 4B
 #include<iostream>
 
 using namespace std;
