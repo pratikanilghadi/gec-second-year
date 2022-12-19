@@ -1,5 +1,6 @@
 /*1 Write a program that reads a text file and creates another file that is identical except 
 that every sequence of consecutive blank spaces is replaced by a single space*/
+//Q 3A
 #include<iostream>
 #include<cstring>
 #include<fstream>
@@ -19,7 +20,7 @@ int main()
  fout.close();
 
  ifstream fin("infile.txt",ios :: in);
- cout<<"\nThe contents of the file are: \n";
+ cout<<"\n\nThe contents of the file are: \n";
  while(fin)
  {
   char ch;
@@ -30,7 +31,7 @@ int main()
 
  fout.open("Outfile.txt");
  fin.open("infile.txt");
- cout<<"\nContents of the file after copying are: \n";
+ cout<<"\n\nContents of the file after copying are: \n";
  while(fin.eof()==0)
  {
   char ch;
