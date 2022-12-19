@@ -1,7 +1,9 @@
 /*Define two classes Polar(r,a) and Rectangle (x,y) to represent points the polar and rectangle systes . Use conversion routine to convert from one system to the other .*/
-
+//Q 1A
 #include<iostream>
 #include<math.h>
+#include<iomanip>
+#define pi 3.14
 
 using namespace std;
 class rectangle;
@@ -29,9 +31,7 @@ class Polar
        }
        void Display_Polar()
        {
-              cout<<"Polar cordinates : \n";
-              cout<<"a: "<<a<<endl;
-              cout<<"r: "<<r<<endl;
+              cout<<"\nPolar cordinates :\n" "a = "<<a<<setw(10)<<"r = "<<r<<endl;
        }
        int get_r()
        {
@@ -66,9 +66,7 @@ class rectangle
               }
               void Display_Rectangle()
               {
-                     cout<<"Rectangle cordinates : \n";
-                     cout<<"x: "<<x<<endl;
-                     cout<<"y: "<<y<<endl;
+                     cout<<"\nRectangle cordinates : \n"<<"x = "<<x<<setw(10)<<"y = "<<y<<endl;
               }
               friend class Polar;
 };
@@ -81,10 +79,9 @@ rectangle::rectangle(class Polar p)
 
 Polar :: Polar(rectangle temp)
 {
-       a=atan(temp.x/temp.y);
+       a=atan(temp.x/temp.y)*(180/pi);
        r=sqrt(temp.x*temp.x+temp.y*temp.y);
 }
-
 
 int main()
 {
@@ -94,9 +91,9 @@ int main()
        
        while(1)
        {
-        cout<<"1. Polar to Rectangle\n";
+        cout<<"\n1. Polar to Rectangle\n";
         cout<<"2. Rectangle to Polar\n";
-              cout<<"3. Exit\n";
+        cout<<"3. Exit\n";
         cout<<"Enter your choice: ";
         cin>>op;      
        switch(op)
@@ -107,17 +104,15 @@ int main()
                r1.Display_Rectangle();
                break;
                      
-       case 2:r1.get_Rectangle();
-              r1.Display_Rectangle();
-              p1=r1;
-              p1.Display_Polar();
-              break;
+        case 2:r1.get_Rectangle();
+               r1.Display_Rectangle();
+               p1=r1;
+               p1.Display_Polar();
+               break;
        
-       case 3:exit(0);
+        case 3:exit(0);
 
-       default:cout<<"Invalid choice\n";
-
-                        
+        default:cout<<"Invalid choice\n";                        
        }
        }
 }
