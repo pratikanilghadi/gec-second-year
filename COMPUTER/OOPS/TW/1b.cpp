@@ -1,3 +1,4 @@
+/*Write a program to read a list containing item name ,code ,cost*/
 #include<iostream>
 #include<iomanip>
 #include<string.h>
@@ -53,7 +54,7 @@ a[i].get_data();
 }
 cout.setf(ios::left,ios::adjustfield);
 cout.fill('-');
-cout.width(32);
+cout.width(25);
 cout<<""<<endl;
 cout.fill(' ');
 cout.width(10);
@@ -63,7 +64,7 @@ cout<<"Code";
 cout.width(10);
 cout<<"Cost"<<endl;
 cout.fill('-');
-cout.width(32);
+cout.width(25);
 cout<<""<<endl;
 cout.fill(' ');
 for(int i=0;i<n;i++)
