@@ -1,4 +1,4 @@
-// A todo application in c++ using priotity queue
+// A todo application in c++ using linkedlist
 
 #include <iostream>
 #include <string>
@@ -186,7 +186,7 @@ void todo_queue:: view()
     if (current == NULL)
     {
         cout << "No tasks to display" << endl;
-        Sleep(1000);
+        Sleep(2000);
         return;
     }
 
@@ -229,7 +229,8 @@ void todo_queue:: add(node *temp)
     
     temp->time = month1 + " " + date1 + " " + year1;
     
-    int level = stoi(year1) * 10000 + give_month(month1) * 100 + stoi(date1);
+    int level = year * 10000 + month * 100 + date;
+    temp->level = level;
 
     if (head == NULL)
     {
@@ -241,7 +242,7 @@ void todo_queue:: add(node *temp)
     {
         node *current = head;
     
-        while ((current->next->next != NULL && level > current->next->level) || current->next != NULL)
+        while ((current->next->next != NULL && level > current->next->level))
         {
             current = current->next;
         }
@@ -294,7 +295,8 @@ void todo_queue:: add()
     temp->status = false;
     temp->time = time;
     
-    int level = stoi(year1) * 10000 + give_month(month1) * 100 + stoi(date1);
+    int level = year * 10000 + month * 100 + date;
+    temp->level = level;
 
     if (head == NULL)
     {
@@ -394,6 +396,7 @@ void todo_queue::greet()
 
 int main()
 {
+    system("color A");
     todo_queue object;
     object.greet();
     object.start();

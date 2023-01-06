@@ -1,5 +1,7 @@
 //C++ code for implementing breadth first search and depth first search using adjacency matrix
 #include <iostream>
+#include <stack>
+#include <queue>
 #define MAX 5
 
 using namespace std;
@@ -80,6 +82,12 @@ void mgraph:: getdata()
 void mgraph:: bfs()
 {
     clear_visited();
+    queue<int> bque;
+    bque.push(0);
+    while(!bque.empty())
+    {
+        
+    }
 }
 
 //Todo-------------------------Function dfs()--------------------------------------------
