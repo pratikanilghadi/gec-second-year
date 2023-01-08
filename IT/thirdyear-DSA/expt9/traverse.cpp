@@ -58,14 +58,16 @@ void mgraph:: getdata()
         switch(choice)
         {
             case 1:
-            int i = 0,j = 0;
-            cout << "Enter the two nodes you want to connect" << endl;
-            cin >> i;
-            cin >> j;
-            matrix[i][j] = 1;
-            matrix[j][i] = 1;
-            break;
-
+            {
+                int i = 0,j = 0;
+                cout << "Enter the two nodes you want to connect" << endl;
+                cin >> i;
+                cin >> j;
+                matrix[i][j] = 1;
+                matrix[j][i] = 1;
+                break;
+            }
+            
             case 2:
             break;
 
